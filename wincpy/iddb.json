@@ -1,0 +1,152 @@
+{
+    "version": 26,
+    "05b076ade4d747878fa925e16e07a2c4": {
+        "human_name": "print",
+        "superseded_by": ""
+    },
+    "499e67d5cb54448e93cee7465be2c866": {
+        "human_name": "calculate",
+        "superseded_by": ""
+    },
+    "63ce21059cf34d3d8ffef497ede7e317": {
+        "human_name": "comments",
+        "superseded_by": ""
+    },
+    "7152c06aa3ac4d5f964ca8619ecb7e8f": {
+        "human_name": "variables",
+        "superseded_by": ""
+    },
+    "71dd124b4a6e4d268f5973db521394ee": {
+        "human_name": "strings",
+        "superseded_by": ""
+    },
+    "62311a1767294e058dc13c953e8690a4": {
+        "human_name": "casting",
+        "superseded_by": ""
+    },
+    "25596924dffe436da9034d43d0af6791": {
+        "human_name": "conditions",
+        "created": "2020-07-28T14:46:57.676147",
+        "superseded_by": ""
+    },
+    "6eb355e1a60f48a28a0bbbd0c88d9ab4": {
+        "human_name": "lists",
+        "created": "2020-07-29T11:41:17.376183",
+        "superseded_by": ""
+    },
+    "c545bc87620d4ced81cbddb8a90b4a51": {
+        "human_name": "for",
+        "created": "2020-08-10T10:09:47.515963",
+        "superseded_by": ""
+    },
+    "c0dc6e00dfac46aab88296601c32669f": {
+        "human_name": "while",
+        "created": "2020-08-10T14:12:40.779433",
+        "superseded_by": ""
+    },
+    "25a8041d2d5e4e3ab61ab1be43bfb863": {
+        "human_name": "dictionaries",
+        "created": "2020-08-19T10:00:34.276508",
+        "superseded_by": ""
+    },
+    "7b9401ad7f544be2a23321292dd61cb6": {
+        "human_name": "arguments",
+        "created": "2020-08-19T15:42:48.856778",
+        "superseded_by": ""
+    },
+    "78029e0e504a49e5b16482a7a23af58c": {
+        "human_name": "modules",
+        "created": "2020-08-20T10:52:54.426689",
+        "superseded_by": ""
+    },
+    "04da020dedb24d42adf41382a231b1ed": {
+        "human_name": "classes",
+        "created": "2020-08-21T14:29:07.231209",
+        "superseded_by": ""
+    },
+    "ae539110d03e49ea8738fd413ac44ba8": {
+        "human_name": "files",
+        "created": "2020-08-25T09:09:53.135268",
+        "superseded_by": ""
+    },
+    "9920545368b24a06babf1b57cee44171": {
+        "human_name": "refactoring",
+        "created": "2020-08-26T14:19:40.546931",
+        "superseded_by": ""
+    },
+    "cc1b724762854e85a8defa04287f708b": {
+        "human_name": "requests",
+        "created": "2020-08-26T18:20:54.814748",
+        "superseded_by": ""
+    },
+    "9263bbfddbeb4a0397de231a1e33240a": {
+        "human_name": "templates",
+        "created": "2020-08-31T12:00:19.169665",
+        "superseded_by": ""
+    },
+    "8fd255f5fe5e40dcb1995184eaa26116": {
+        "human_name": "authentication",
+        "created": "2020-08-31T14:55:01.108275",
+        "superseded_by": ""
+    },
+    "d0d3cdcefbb54bc980f443c04ab3a9eb": {
+        "human_name": "operators",
+        "created": "2020-09-07T13:40:46.932677",
+        "superseded_by": ""
+    },
+    "7599944cfbd94b47beffdbab7a208931": {
+        "human_name": "statements",
+        "created": "2020-09-07T13:43:29.948716",
+        "superseded_by": ""
+    },
+    "49bce82ef9cc475ca3146ee15b0259d0": {
+        "human_name": "functions",
+        "created": "2020-09-14T13:11:36.941657",
+        "superseded_by": ""
+    },
+    "a2bc36ea784242e4989deb157d527ba0": {
+        "human_name": "superpy",
+        "created": "2020-10-05T18:41:00.787430",
+        "superseded_by": ""
+    },
+    "8c2e6882503c4baa9ce2e050497c3f2f": {
+        "human_name": "stds",
+        "created": "2020-11-04T15:45:00.733022",
+        "superseded_by": ""
+    },
+    "286787689e9849969c326ee41d8c53c4": {
+        "human_name": "peewee-orm",
+        "created": "2020-11-18T11:48:34.483809",
+        "superseded_by": ""
+    },
+    "d7b474e9b3a54d23bca54879a4f1855b": {
+        "human_name": "betsy-webshop",
+        "created": "2020-11-30T20:48:50.792584",
+        "superseded_by": ""
+    },
+    "534d85ea1ab14924a91f9eccf6f3f30d": {
+        "human_name": "errors",
+        "created": "2020-12-14T14:35:50.747678",
+        "superseded_by": ""
+    },
+    "cfcf9de827a34e539ce924062dbafeb1": {
+        "human_name": "spa",
+        "created": "2021-02-02T15:17:34.751502",
+        "superseded_by": ""
+    },
+    "e75b6cd4a7404e3ca76c308566dafb5d": {
+        "human_name": "hello-world",
+        "created": "2021-05-26T11:10:01.113580",
+        "superseded_by": ""
+    },
+    "00a4ab32f1024f5da525307a1959958e": {
+        "human_name": "dictionariesv2",
+        "created": "2022-01-12T11:20:19.552567",
+        "superseded_by": ""
+    },
+    "f82d22e9845f4b0ea8ff1e3fa6f33a7d": {
+        "human_name": "bouncer",
+        "created": "2023-05-11T15:00:04.480205",
+        "superseded_by": ""
+    }
+}
