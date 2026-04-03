@@ -23,7 +23,7 @@ def main(stdout, stderr):
             # No runtime errors but the solution didn't pass.
             exit(1)
     elif args.action == "update":
-        update()
+        helpers.update()
     elif args.action == "solve":
         result = check(args)
         passed = all([not x for _, x in result])

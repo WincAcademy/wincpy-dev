@@ -31,7 +31,6 @@ with open("README.md", "r", encoding="utf-8") as f:
 setup(
     name="wincpy",
     author="Winc Academy",
-    author_email="wincacademy.com",
     description="Assists students in doing Winc Academy Python exercises.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -44,9 +43,14 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    python_requires=">= 3.8",
+    python_requires=">=3.8",
     package_data={"wincpy": gather_package_data_paths()},
     entry_points={"console_scripts": ["wincpy=wincpy.__main__:console_entry"]},
-    install_requires=["rich>=10.9.0"],
+    install_requires=[
+        "rich>=10.9.0",
+        "requests>=2.31.0",
+        "packaging>=24.0",
+        "pandas>=1.5.0",
+    ],
     use_scm_version={"version_file": "wincpy/_version.py"},
 )

@@ -1,16 +1,14 @@
 from argparse import ArgumentParser
-from contextlib import redirect_stdout
-import io
+import importlib
 import os
+import pathlib
 import subprocess
 import sys
-# import urllib.request
-import json
-import importlib
-import pathlib
+
 import pandas as pd
 
-from wincpy import ui
+
+LATEST_RELEASE_API = "https://api.github.com/repos/WincAcademy/wincpy-dist/releases/latest"
 
 
 def get_iddb():
@@ -19,13 +17,16 @@ def get_iddb():
     try:
         iddb = pd.read_json(iddb_url)
         print("this works!")
-    except:
+    except Exception:
+        from wincpy import ui
         ui.report_error("iddb_load_fail")
         exit(6)
     return iddb
 
 
 def get_student_module(path):
+    from wincpy import ui
+
     arg_abspath = os.path.abspath(path)
     parent_abspath, student_module_name = os.path.split(arg_abspath)
     sys.path.insert(0, arg_abspath)
@@ -86,28 +87,18 @@ def parse_args():
         help="Path containing assignment to check.",
     )
 
-    args = parser.parse_args()
-    return args
-
-
-
-
-import json
-import subprocess
-import sys
-import urllib.request
-
-import wincpy
-from packaging.version import Version
-from rich.markdown import Markdown
-
-
-LATEST_RELEASE_API = "https://api.github.com/repos/WincAcademy/wincpy-dist/releases/latest"
+    return parser.parse_args()
 
 
 def get_latest_release_info():
-    with urllib.request.urlopen(LATEST_RELEASE_API) as response:
-        release = json.load(response)
+    try:
+        import requests
+    except ImportError as e:
+        raise RuntimeError("The 'requests' package is required for updates") from e
+
+    response = requests.get(LATEST_RELEASE_API, timeout=10)
+    response.raise_for_status()
+    release = response.json()
 
     latest_version = release["tag_name"].removeprefix("v")
 
@@ -125,38 +116,6 @@ def get_latest_release_info():
         "version": latest_version,
         "wheel_url": wheel_url,
     }
-
-
-def is_update_available():
-    current_version = Version(wincpy.__version__)
-    latest_version = Version(get_latest_release_info()["version"])
-    return latest_version > current_version
-
-
-def print_version():
-    current_version = wincpy.__version__
-
-    try:
-        latest = get_latest_release_info()["version"]
-
-        if Version(latest) > Version(current_version):
-            message = (
-                f"# Version {current_version}\n\n"
-                f"⚠️ Update available: **{latest}**\n\n"
-                f"Run `wincpy update` to install it."
-            )
-        else:
-            message = (
-                f"# Version {current_version}\n\n"
-                f"✅ You are up to date."
-            )
-    except Exception:
-        message = (
-            f"# Version {current_version}\n\n"
-            f"Could not check for updates."
-        )
-
-    console.print(Markdown(message))
 
 
 def update():

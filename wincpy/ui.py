@@ -2,6 +2,8 @@ import os
 import sys
 import traceback
 
+from packaging.version import Version
+from wincpy import helpers
 
 from rich.console import Console
 from rich.markdown import Markdown
@@ -118,13 +120,26 @@ def print_version():
     current_version = wincpy.__version__
 
     try:
-        latest = get_latest_release_info()["version"]
-        suffix = " (update available)" if Version(latest) > Version(current_version) else ""
+        latest_version = helpers.get_latest_release_info()["version"]
+
+        if Version(latest_version) > Version(current_version):
+            message = (
+                f"# Version {current_version}\n\n"
+                f"Update available: **{latest_version}**"
+            )
+        else:
+            message = (
+                f"# Version {current_version}\n\n"
+                f"You are up to date."
+            )
     except Exception:
-        suffix = ""
+        message = (
+            f"# Version {current_version}\n\n"
+            f"Cannot search for new version."
+        )
 
-    console.print(Markdown(f"# Version {current_version}{suffix}"))
-
+    console.print(Markdown(message))
+	
 def report_error(case, **relevant_vars):
     # Assemble and report error
     string = __assemble_ui_string(errors[case], relevant_vars)
