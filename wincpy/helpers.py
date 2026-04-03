@@ -7,9 +7,7 @@ import sys
 
 import pandas as pd
 
-
 LATEST_RELEASE_API = "https://api.github.com/repos/WincAcademy/wincpy-dist/releases/latest"
-
 
 def get_iddb():
     # THIS FUNCTION WAS CHANGED, MIGHT NOT WORK WITH NON-WINDOWS OS

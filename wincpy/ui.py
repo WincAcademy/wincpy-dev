@@ -122,20 +122,21 @@ def print_version():
     try:
         latest_version = helpers.get_latest_release_info()["version"]
 
-        if Version(latest_version) > Version(current_version):
+        if latest_version != current_version:
             message = (
                 f"# Version {current_version}\n\n"
-                f"Update available: **{latest_version}**"
+                f"A newer version is available: **{latest_version}**.\n\n"
+                f"To update Wincpy, run `wincpy update`."
             )
         else:
             message = (
                 f"# Version {current_version}\n\n"
-                f"You are up to date."
+                f"You have the latest version of Wincpy."
             )
     except Exception:
         message = (
             f"# Version {current_version}\n\n"
-            f"Cannot search for new version."
+            f"Could not check for updates."
         )
 
     console.print(Markdown(message))
