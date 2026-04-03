@@ -1,4 +1,4 @@
-name: Release to Dist Repo
+name: Release to dist repo
 
 on:
   push:
@@ -11,20 +11,25 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+    steps:
+      - name: Check out source repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - run: |
+      - name: Install build tooling
+        run: |
           python -m pip install --upgrade pip
-          pip install build
+          python -m pip install build
 
-      - run: python -m build --wheel
+      - name: Build wheel
+        run: python -m build --wheel
 
-      - name: Get GitHub App token
+      - name: Create GitHub App token for dist repo
         id: app-token
         uses: actions/create-github-app-token@v1
         with:
@@ -33,11 +38,12 @@ jobs:
           owner: WincAcademy
           repositories: wincpy-dist
 
-      - name: Create release + upload wheel to dist repo
+      - name: Create release and upload wheel to dist repo
         uses: softprops/action-gh-release@v2
         with:
           repository: WincAcademy/wincpy-dist
           tag_name: ${{ github.ref_name }}
+          target_commitish: main
           files: dist/*.whl
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
