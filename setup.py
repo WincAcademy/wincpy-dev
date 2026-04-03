@@ -7,7 +7,7 @@ def gather_package_data_paths():
     package_data_paths = []
 
     # Reuse .gitignore to keep it in sync
-    with open(".gitignore", "r") as f:
+    with open(".gitignore", "r", encoding="utf-8") as f:
         ignorelist = f.read().split("\n")
 
     for root, dirs, files in os.walk("wincpy"):
@@ -48,4 +48,5 @@ setup(
     package_data={"wincpy": gather_package_data_paths()},
     entry_points={"console_scripts": ["wincpy=wincpy.__main__:console_entry"]},
     install_requires=["rich>=10.9.0"],
+    use_scm_version={"version_file": "wincpy/_version.py"},
 )
