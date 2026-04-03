@@ -2,8 +2,6 @@ import os
 import sys
 import traceback
 
-from packaging.version import Version
-from wincpy import helpers
 
 from rich.console import Console
 from rich.markdown import Markdown
@@ -30,7 +28,6 @@ errors = {
         "no_solution_available": "There's no solution available for the exercise/assignment {{ exercise_name }}.",
         "check_failed": "Something went wrong while checking your code. Python gave us the following reason:\n> `{{ exception }}`",
         "empty_check": "There is a check for this exercise/assignment, but it contains no actual check functions.",
-		"update_failed": "Wincpy could not update itself.\n\nReason: `{{ exception }}`",
     }.items()
 }
 
@@ -92,7 +89,7 @@ successes = {
 
 logo = """\
 █░█░█ █ █▄░█ █▀▀ █▀█ █▄█
-▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░\n"""
+▀▄▀▄▀ █ █░▀█ █▄▄ █▀▀ ░█░-offline\n"""
 
 
 __original_stdout = sys.stdout
@@ -118,30 +115,9 @@ def print_intro():
 
 
 def print_version():
-    current_version = wincpy.__version__
+    console.print(Markdown("# Version " + wincpy.__version__))
 
-    try:
-        latest_version = helpers.get_latest_release_info()["version"]
 
-        if latest_version != current_version:
-            message = (
-                f"# Version {current_version}\n\n"
-                f"A newer version is available: **{latest_version}**.\n\n"
-                f"To update Wincpy, run `wincpy update`."
-            )
-        else:
-            message = (
-                f"# Version {current_version}\n\n"
-                f"You have the latest version of Wincpy."
-            )
-    except Exception:
-        message = (
-            f"# Version {current_version}\n\n"
-            f"Could not check for updates."
-        )
-
-    console.print(Markdown(message))
-	
 def report_error(case, **relevant_vars):
     # Assemble and report error
     string = __assemble_ui_string(errors[case], relevant_vars)

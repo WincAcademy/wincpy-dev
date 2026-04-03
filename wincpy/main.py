@@ -23,12 +23,7 @@ def main(stdout, stderr):
             # No runtime errors but the solution didn't pass.
             exit(1)
     elif args.action == "update":
-        try:
-            helpers.update()
-        except RuntimeError as e:
-            reason = str(e.__cause__) if e.__cause__ else str(e)
-            ui.report_error("update_failed", exception=reason)
-            exit(1)
+        update()
     elif args.action == "solve":
         result = check(args)
         passed = all([not x for _, x in result])
@@ -104,6 +99,7 @@ def check(args):
         except Exception as e:
             result.append((check.__doc__, e))
     return result
+
 
 def solve(args):
     student_module = helpers.get_student_module(args.path)

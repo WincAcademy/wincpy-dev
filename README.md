@@ -1,6 +1,6 @@
-# Wincpy 1.3.7
+# Wincpy 1.4.0
 
-[![.github/workflows/check-solutions.yml](https://github.com/WincAcademy/wincpy/actions/workflows/check-solutions.yml/badge.svg?branch=master)](https://github.com/WincAcademy/wincpy/actions/workflows/check-solutions.yml)
+[![Check Solutions](https://github.com/WincAcademy/wincpy-dev/actions/workflows/check-solutions.yml/badge.svg?branch=main)](https://github.com/WincAcademy/wincpy-dev/actions/workflows/check-solutions.yml)
 
 This is a tool students use to start exercises and check how they are doing on
 them.
@@ -10,18 +10,17 @@ on students' code yourself, inspect the file for malicious effects.
 
 ## Installation
 
-### Using pip
+### Using Python
 
 ```sh
-python3 -m pip install --extra-index-url https://packages.wincacademy.nl wincpy --user
+python -c "import json,sys,subprocess,urllib.request; r=json.load(urllib.request.urlopen('https://api.github.com/repos/WincAcademy/wincpy-dist/releases/latest')); u=next(a['browser_download_url'] for a in r['assets'] if a['name'].endswith('.whl') and a['name'].startswith('wincpy-')); subprocess.run([sys.executable,'-m','pip','install','--upgrade',u], check=True)"
 ```
 
 ### Using git
 
 ```sh
-python3 -m pip install git+https://github.com/WincAcademy/wincpy@release --user --upgrade
+python -m pip install --upgrade https://github.com/WincAcademy/wincpy-dist/releases/download/v1.4.0/wincpy-1.4.0-py3-none-any.whl
 ```
-
 
 ## Usage
 
@@ -57,24 +56,18 @@ python3 -m pip install git+https://github.com/WincAcademy/wincpy@release --user 
   containing the implementation to be checked and solved. If it is omitted, the
   current working directory is used.
 
+- `wincpy version`
+
+  Show which version of Wincpy is installed and checks for updates.
+
 - `wincpy update`
 
   Updates Wincpy to the version on the *release*-branch of this repository on
   GitHub. Requires a working installation of pip in `$PATH`.
 
-- `wincpy version`
-
-  Show which version of Wincpy is installed.
-
 See also `wincpy --help`.
 
 ## Develop
-
-**Important:** students install from the release branch, and Wincpy updates
-itself from this branch as well. Students may update their version of Wincpy at
-any time. **Test your changes before you commit to the release branch.** Also:
-don't forget to bump the version when you merge into the release branch,
-otherwise pip will not update the local installation.
 
 ### Adding exercises
 
@@ -132,7 +125,12 @@ otherwise pip will not update the local installation.
 
 ## Deployment
 
-Manually trigger the Deploy GitHub Action to upload a new build to
-packages.wincacademy.nl.
-
-The version from [setup.py](/setup.py) is used for the build.
+1. Decide the new version number, for example `1.4.1`.
+2. Update the version number in this `README.md`.
+3. Update the install command in this `README.md` to use that version number, for example:
+```sh
+python -m pip install --upgrade https://github.com/WincAcademy/wincpy-dist/releases/download/v1.4.1/wincpy-1.4.1-py3-none-any.whl
+```
+4. Update the same install command in the learning environment.
+5. Commit and push these changes.
+6. Create and push the matching release tag, for example `v1.4.1`.

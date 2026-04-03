@@ -1,30 +1,30 @@
 from argparse import ArgumentParser
-import importlib
+from contextlib import redirect_stdout
+import io
 import os
-import pathlib
 import subprocess
 import sys
-
+import json
+import importlib
+import pathlib
 import pandas as pd
 
-LATEST_RELEASE_API = "https://api.github.com/repos/WincAcademy/wincpy-dist/releases/latest"
+from wincpy import ui
+
 
 def get_iddb():
     # THIS FUNCTION WAS CHANGED, MIGHT NOT WORK WITH NON-WINDOWS OS
-    iddb_url = f"{pathlib.Path(__file__).parent.resolve()}/iddb.json"
+    iddb_file = f"{pathlib.Path(__file__).parent.resolve()}/iddb.json"
     try:
-        iddb = pd.read_json(iddb_url)
+        iddb = pd.read_json(iddb_file)
         print("this works!")
-    except Exception:
-        from wincpy import ui
+    except:
         ui.report_error("iddb_load_fail")
         exit(6)
     return iddb
 
 
 def get_student_module(path):
-    from wincpy import ui
-
     arg_abspath = os.path.abspath(path)
     parent_abspath, student_module_name = os.path.split(arg_abspath)
     sys.path.insert(0, arg_abspath)
@@ -64,7 +64,6 @@ def parse_args():
     check_parser = subparsers.add_parser("check", help="Check an existing assignment.")
     solve_parser = subparsers.add_parser("solve", help="Place Winc's solution here.")
 
-    subparsers.add_parser("update", help="Update wincpy using pip.")
     subparsers.add_parser("version", help="Print wincpy's version.")
 
     start_parser.add_argument(
@@ -85,47 +84,5 @@ def parse_args():
         help="Path containing assignment to check.",
     )
 
-    return parser.parse_args()
-
-
-def get_latest_release_info():
-    try:
-        import requests
-    except ImportError as e:
-        raise RuntimeError("The 'requests' package is required for updates") from e
-
-    response = requests.get(LATEST_RELEASE_API, timeout=10)
-    response.raise_for_status()
-    release = response.json()
-
-    latest_version = release["tag_name"].removeprefix("v")
-
-    wheel_url = None
-    for asset in release["assets"]:
-        name = asset["name"]
-        if name.startswith("wincpy-") and name.endswith(".whl"):
-            wheel_url = asset["browser_download_url"]
-            break
-
-    if not wheel_url:
-        raise RuntimeError("No wincpy wheel found in the latest release")
-
-    return {
-        "version": latest_version,
-        "wheel_url": wheel_url,
-    }
-
-
-def update():
-    try:
-        release_info = get_latest_release_info()
-        wheel_url = release_info["wheel_url"]
-
-        subprocess.run(
-            [sys.executable, "-m", "pip", "install", "--upgrade", wheel_url],
-            check=True,
-        )
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError("Failed to update wincpy") from e
-    except Exception as e:
-        raise RuntimeError("Could not determine the latest wincpy release") from e
+    args = parser.parse_args()
+    return args
