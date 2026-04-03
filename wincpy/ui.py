@@ -30,6 +30,7 @@ errors = {
         "no_solution_available": "There's no solution available for the exercise/assignment {{ exercise_name }}.",
         "check_failed": "Something went wrong while checking your code. Python gave us the following reason:\n> `{{ exception }}`",
         "empty_check": "There is a check for this exercise/assignment, but it contains no actual check functions.",
+		"update_failed": "Wincpy could not update itself.\n\nReason: `{{ exception }}`",
     }.items()
 }
 

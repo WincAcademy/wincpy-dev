@@ -23,7 +23,12 @@ def main(stdout, stderr):
             # No runtime errors but the solution didn't pass.
             exit(1)
     elif args.action == "update":
-        helpers.update()
+        try:
+            helpers.update()
+        except RuntimeError as e:
+            reason = str(e.__cause__) if e.__cause__ else str(e)
+            ui.report_error("update_failed", exception=reason)
+            exit(1)
     elif args.action == "solve":
         result = check(args)
         passed = all([not x for _, x in result])
