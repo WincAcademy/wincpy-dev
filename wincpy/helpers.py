@@ -4,20 +4,21 @@ import io
 import os
 import subprocess
 import sys
-import urllib.request
+# import urllib.request
 import json
 import importlib
+import pathlib
+import pandas as pd
 
 from wincpy import ui
 
 
 def get_iddb():
-    iddb_url = "https://github.com/WincAcademy/wincid/raw/master/iddb.json"
-    iddb_bytes = urllib.request.urlopen(iddb_url, timeout=1).read()
-    iddb = json.loads(iddb_bytes)
+    # THIS FUNCTION WAS CHANGED, MIGHT NOT WORK WITH NON-WINDOWS OS
+    iddb_url = f"{pathlib.Path(__file__).parent.resolve()}/iddb.json"
     try:
-        iddb_bytes = urllib.request.urlopen(iddb_url, timeout=1).read()
-        iddb = json.loads(iddb_bytes)
+        iddb = pd.read_json(iddb_url)
+        print("this works!")
     except:
         ui.report_error("iddb_load_fail")
         exit(6)
