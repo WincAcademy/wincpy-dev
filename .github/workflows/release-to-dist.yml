@@ -38,39 +38,14 @@ jobs:
           owner: WincAcademy
           repositories: wincpy-dist
 
-      - name: Inspect app access to target repo
+      - name: Create release in dist repo and upload wheel
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          TAG: ${{ github.ref_name }}
         run: |
           set -euxo pipefail
 
-          echo "== Repo lookup =="
-          curl -i -sS \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            https://api.github.com/repos/WincAcademy/wincpy-dist
-
-          echo
-          echo "== Installation lookup =="
-          curl -i -sS \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            https://api.github.com/repos/WincAcademy/wincpy-dist/installation
-
-          echo
-          echo "== Draft release create test =="
-          curl -i -sS -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            https://api.github.com/repos/WincAcademy/wincpy-dist/releases \
-            -d '{"tag_name":"debug-app-token-test","target_commitish":"main","name":"debug-app-token-test","draft":true}'
-
-      - name: Create release and upload wheel to dist repo
-        uses: softprops/action-gh-release@v2
-        with:
-          repository: WincAcademy/wincpy-dist
-          tag_name: ${{ github.ref_name }}
-          target_commitish: main
-          files: dist/*.whl
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          gh release create "$TAG" dist/*.whl \
+            --repo WincAcademy/wincpy-dist \
+            --target main \
+            --title "$TAG"
