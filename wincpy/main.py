@@ -101,15 +101,22 @@ def check(args):
     return result
 
 
-def update():
-    release_url = "git+https://github.com/WincAcademy/wincpy@release"
-    args = ["python3", "-m", "pip", "install", release_url, "--upgrade"]
-    try:
-        subprocess.run(args, check=True)
-    except:
-        args[0] = "python"
-        subprocess.run(args, check=True)
+import subprocess
+import sys
 
+def update():
+    wheel_url = (
+        "https://github.com/WincAcademy/wincpy-dist/"
+        "releases/latest/download/wincpy-latest-py3-none-any.whl"
+    )
+
+    try:
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "--upgrade", wheel_url],
+            check=True,
+        )
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError("Failed to update wincpy") from e
 
 def solve(args):
     student_module = helpers.get_student_module(args.path)
