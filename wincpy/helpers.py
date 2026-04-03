@@ -88,3 +88,87 @@ def parse_args():
 
     args = parser.parse_args()
     return args
+
+
+
+
+import json
+import subprocess
+import sys
+import urllib.request
+
+import wincpy
+from packaging.version import Version
+from rich.markdown import Markdown
+
+
+LATEST_RELEASE_API = "https://api.github.com/repos/WincAcademy/wincpy-dist/releases/latest"
+
+
+def get_latest_release_info():
+    with urllib.request.urlopen(LATEST_RELEASE_API) as response:
+        release = json.load(response)
+
+    latest_version = release["tag_name"].removeprefix("v")
+
+    wheel_url = None
+    for asset in release["assets"]:
+        name = asset["name"]
+        if name.startswith("wincpy-") and name.endswith(".whl"):
+            wheel_url = asset["browser_download_url"]
+            break
+
+    if not wheel_url:
+        raise RuntimeError("No wincpy wheel found in the latest release")
+
+    return {
+        "version": latest_version,
+        "wheel_url": wheel_url,
+    }
+
+
+def is_update_available():
+    current_version = Version(wincpy.__version__)
+    latest_version = Version(get_latest_release_info()["version"])
+    return latest_version > current_version
+
+
+def print_version():
+    current_version = wincpy.__version__
+
+    try:
+        latest = get_latest_release_info()["version"]
+
+        if Version(latest) > Version(current_version):
+            message = (
+                f"# Version {current_version}\n\n"
+                f"⚠️ Update available: **{latest}**\n\n"
+                f"Run `wincpy update` to install it."
+            )
+        else:
+            message = (
+                f"# Version {current_version}\n\n"
+                f"✅ You are up to date."
+            )
+    except Exception:
+        message = (
+            f"# Version {current_version}\n\n"
+            f"Could not check for updates."
+        )
+
+    console.print(Markdown(message))
+
+
+def update():
+    try:
+        release_info = get_latest_release_info()
+        wheel_url = release_info["wheel_url"]
+
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "--upgrade", wheel_url],
+            check=True,
+        )
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError("Failed to update wincpy") from e
+    except Exception as e:
+        raise RuntimeError("Could not determine the latest wincpy release") from e
