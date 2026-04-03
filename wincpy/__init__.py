@@ -1,2 +1,1 @@
-# Leave this empty other than the version
-__version__ = "1.3.7"
+from ._version import version as __version__
