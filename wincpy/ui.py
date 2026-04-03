@@ -115,8 +115,15 @@ def print_intro():
 
 
 def print_version():
-    console.print(Markdown("# Version " + wincpy.__version__))
+    current_version = wincpy.__version__
 
+    try:
+        latest = get_latest_release_info()["version"]
+        suffix = " (update available)" if Version(latest) > Version(current_version) else ""
+    except Exception:
+        suffix = ""
+
+    console.print(Markdown(f"# Version {current_version}{suffix}"))
 
 def report_error(case, **relevant_vars):
     # Assemble and report error
