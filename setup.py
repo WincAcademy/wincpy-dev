@@ -17,28 +17,29 @@ def gather_package_data_paths():
 
         # Trim off 'wincpy/'
         root = root[7:]
-        for f in files:
+        for filename in files:
             # We don't exclude non-Python files because then Python files that
             # are in a folder without __init__.py in it are omitted.
-            package_data_paths.append(os.path.join(root, f))
+            package_data_paths.append(os.path.join(root, filename))
     return package_data_paths
 
 
-state = {}
-with open(os.path.join("wincpy", "__init__.py"), "r") as f:
-    src = f.read()
-exec(src, state)
+with open("README.md", "r", encoding="utf-8") as f:
+    long_description = f.read()
+
 
 setup(
     name="wincpy",
-    author="Stefan Wijnja (stfwn)",
-    author_email="stefan@stfwn.com",
-    description="Assists students in doing Winc Academy exercises.",
-    long_description=open("README.md", "r").read(),
+    author="Winc Academy",
+    author_email="wincacademy.com",
+    description="Assists students in doing Winc Academy Python exercises.",
+    long_description=long_description,
     long_description_content_type="text/markdown",
-    version=state["__version__"],
     packages=find_packages(),
-    url="https://github.com/WincAcademy/wincpy",
+    url="https://github.com/WincAcademy/wincpy-dist",
+    project_urls={
+        "Downloads": "https://github.com/WincAcademy/wincpy-dist/releases/latest",
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
