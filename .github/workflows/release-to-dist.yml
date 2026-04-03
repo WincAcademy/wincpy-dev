@@ -26,10 +26,12 @@ jobs:
 
       - name: Get GitHub App token
         id: app-token
-        uses: tibdex/github-app-token@v2
+        uses: actions/create-github-app-token@v1
         with:
-          app_id: ${{ secrets.DIST_APP_ID }}
-          private_key: ${{ secrets.DIST_APP_PRIVATE_KEY }}
+          app-id: ${{ secrets.DIST_APP_ID }}
+          private-key: ${{ secrets.DIST_APP_PRIVATE_KEY }}
+          owner: WincAcademy
+          repositories: wincpy-dist
 
       - name: Create release + upload wheel to dist repo
         uses: softprops/action-gh-release@v2
